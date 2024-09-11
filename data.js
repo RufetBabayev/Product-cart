@@ -1,5 +1,6 @@
 const data = [
   {
+    id: 1,
     image: {
       thumbnail: "./assets/images/image-waffle-thumbnail.jpg",
       mobile: "./assets/images/image-waffle-mobile.jpg",
@@ -9,8 +10,10 @@ const data = [
     name: "Waffle with Berries",
     category: "Waffle",
     price: 6.5,
+    count: 1,
   },
   {
+    id: 2,
     image: {
       thumbnail: "./assets/images/image-creme-brulee-thumbnail.jpg",
       mobile: "./assets/images/image-creme-brulee-mobile.jpg",
@@ -20,8 +23,10 @@ const data = [
     name: "Vanilla Bean Crème Brûlée",
     category: "Crème Brûlée",
     price: 7,
+    count: 1,
   },
   {
+    id: 3,
     image: {
       thumbnail: "./assets/images/image-macaron-thumbnail.jpg",
       mobile: "./assets/images/image-macaron-mobile.jpg",
@@ -31,8 +36,10 @@ const data = [
     name: "Macaron Mix of Five",
     category: "Macaron",
     price: 8,
+    count: 1,
   },
   {
+    id: 4,
     image: {
       thumbnail: "./assets/images/image-tiramisu-thumbnail.jpg",
       mobile: "./assets/images/image-tiramisu-mobile.jpg",
@@ -42,8 +49,10 @@ const data = [
     name: "Classic Tiramisu",
     category: "Tiramisu",
     price: 5.5,
+    count: 1,
   },
   {
+    id: 5,
     image: {
       thumbnail: "./assets/images/image-baklava-thumbnail.jpg",
       mobile: "./assets/images/image-baklava-mobile.jpg",
@@ -53,8 +62,10 @@ const data = [
     name: "Pistachio Baklava",
     category: "Baklava",
     price: 4,
+    count: 1,
   },
   {
+    id: 6,
     image: {
       thumbnail: "./assets/images/image-meringue-thumbnail.jpg",
       mobile: "./assets/images/image-meringue-mobile.jpg",
@@ -64,8 +75,10 @@ const data = [
     name: "Lemon Meringue Pie",
     category: "Pie",
     price: 5,
+    count: 1,
   },
   {
+    id: 7,
     image: {
       thumbnail: "./assets/images/image-cake-thumbnail.jpg",
       mobile: "./assets/images/image-cake-mobile.jpg",
@@ -75,8 +88,10 @@ const data = [
     name: "Red Velvet Cake",
     category: "Cake",
     price: 4.5,
+    count: 1,
   },
   {
+    id: 8,
     image: {
       thumbnail: "./assets/images/image-brownie-thumbnail.jpg",
       mobile: "./assets/images/image-brownie-mobile.jpg",
@@ -86,8 +101,10 @@ const data = [
     name: "Salted Caramel Brownie",
     category: "Brownie",
     price: 4.5,
+    count: 1,
   },
   {
+    id: 9,
     image: {
       thumbnail: "./assets/images/image-panna-cotta-thumbnail.jpg",
       mobile: "./assets/images/image-panna-cotta-mobile.jpg",
@@ -97,6 +114,7 @@ const data = [
     name: "Vanilla Panna Cotta",
     category: "Panna Cotta",
     price: 6.5,
+    count: 1,
   },
 ];
 

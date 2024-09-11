@@ -7,14 +7,64 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
-    <main class="bg-[#fcf9f7]">
+    <main
+      class="bg-[#f4edeb] relative before:content-[''] before:bg-black/50 before:top-0 before:left-0 before:absolute before:size-full before:z-10 before:invisible before:delay-300 before:transition-all"
+    >
       <section class="flex container mx-auto pt-6">
         <article class="flex-1 space-y-4">
-          <h1 class="font-bold text-3xl">Desserts</h1>
+          <h1 class="font-bold text-3xl pt-9 pb-4">Desserts</h1>
           <div id="productsContainer" class="grid grid-cols-3 gap-y-2"></div>
         </article>
-        <article class="w-1/3 bg-red-300"></article>
+        <article class="w-1/4 pt-10">
+          <div class="bg-white p-2 space-y-4">
+            <h2 class="font-bold text-xl text-[#c73a0f]">
+              Your Cart (<span id="cartCount">0</span>)
+            </h2>
+            <div id="cartContainer" class="divide-y">
+              <div>
+                <figure class="flex justify-center">
+                  <img
+                    src="./assets/images/illustration-empty-cart.svg"
+                    alt=""
+                  />
+                </figure>
+                <p class="text-center texr-xs text-[#ad8985]">
+                  Your added items wll appear here
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            id="confirimContainer"
+            class="border-t border-gray-300 space-y-3 hidden"
+          >
+            <div class="flex justify-between">
+              <span>Order Total</span>
+              <span id="totalBasketPrice" class="font-bold text-lg"
+                >$46.50</span
+              >
+            </div>
+            <p
+              class="flex items-center space-x-1 justify-center bg-[#f4edeb] p-2"
+            >
+              <img src="./assets/images/icon-carbon-neutral.svg" alt="" />
+              This is a <span class="font-bold">carbon-neutral delivery</span>
+            </p>
+
+            <button
+              id="confirmOrderBtn"
+              class="w-full rounded-full p-3 font-bold bg-[#c73a0f] text-white"
+            >
+              Confirm Order
+            </button>
+          </div>
+        </article>
       </section>
+
+      <div
+        id="modalContainer"
+        class="w-[400px] bg-white rounded-md p-2 absolute top-1/3 left-1/2 -translate-x-1/2 scale-0 transition-all delay-300 z-20"
+      ></div>
     </main>
     <script type="module" src="script.js"></script>
   </body>

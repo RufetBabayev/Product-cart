@@ -1,6 +1,6 @@
 import data from "./data.js";
 
-const productsContainer = document.querySelector("#productsContainer");
+const productContainer = document.querySelector("#productContainer");
 const cartContainer = document.querySelector("#cartContainer");
 const confirimContainer = document.querySelector("#confirimContainer");
 const totalBasketPrice = document.querySelector("#totalBasketPrice");
@@ -8,17 +8,19 @@ const cartCount = document.querySelector("#cartCount");
 const confirmOrderBtn = document.querySelector("#confirmOrderBtn");
 const modalContainer = document.querySelector("#modalContainer");
 const main = document.querySelector("main");
+const startNewOrderBtn = document.querySelector("#startNewOrderBtn");
+const modalContent = document.querySelector("#modalContent");
 
 let basket = [];
 
-function createProducts(products) {
-  const html = products
+function creatProduct(product) {
+  const html = product
     .map((pData) => {
       const findedP = basket.find((b) => b.id === pData.id);
 
       return `<div class="space-y-3">
-              <div class="relative">
-                <figure class="size-72">
+              <div class="relative flex flex-col items-center">
+                <figure class=" md:size-72">
                   <img
                     class="size-full object-cover rounded-md"
                     src=${pData.image.desktop}
@@ -30,13 +32,13 @@ function createProducts(products) {
                 ${
                   findedP
                     ? `
-                  <div class="flex justify-between text-white absolute translate-x-1/2 -bottom-4 items-center border rounded-full bg-[#c73a0f] py-2 px-3 w-[150px] ">
+                  <div class="flex justify-between text-white absolute  -bottom-4 items-center border rounded-full bg-[#c73a0f] py-2 px-3 w-[150px] ">
                     <button data-id=${pData.id} class="decreaseBtn">-</button>
                     <span>${pData.count}</span>
                     <button data-id=${pData.id} class="increaseBtn">+</button>
                     </div>`
                     : `  <button data-id=${pData.id}
-                  class="addToCart flex absolute translate-x-1/2 -bottom-4 items-center border rounded-full bg-white py-1 px-3"
+                  class="addToCart flex absolute w-1/2   -bottom-4 items-center  border rounded-full bg-white py-3 px-4"
                 >
                   <img src="./assets/images/icon-add-to-cart.svg" alt="" />
                   Add to cart
@@ -44,7 +46,7 @@ function createProducts(products) {
                 }
             
               </div>
-              <div class="space-y-1">
+              <div class="space-y-1 pb-3">
                 <span class="text-gray-500 text-sm">${pData.category}</span>
                 <p class="font-bold">${pData.name}</p>
                 <span class="text-[#c73a0f]">$${pData.price.toFixed(2)}</span>
@@ -52,13 +54,13 @@ function createProducts(products) {
             </div>`;
     })
     .join("");
-  productsContainer.innerHTML = html;
+  productContainer.innerHTML = html;
   getAddBtn(".addToCart");
   getAddBtn(".increaseBtn");
   getAddBtn(".decreaseBtn");
 }
 
-createProducts(data);
+creatProduct(data);
 
 function getAddBtn(className) {
   const addBtn = document.querySelectorAll(className);
@@ -84,7 +86,7 @@ function addBasket(productId) {
     basket.push(findProduct);
   }
 
-  createProducts(data);
+  creatProduct(data);
   createBasketUi(basket);
 }
 
@@ -98,7 +100,7 @@ function decreaseProduct(productId) {
     basket = basket.filter((b) => b.id !== productId);
   }
 
-  createProducts(data);
+  creatProduct(data);
   createBasketUi(basket);
 }
 
@@ -139,6 +141,7 @@ function createBasketUi(basketItems) {
     cartCount.textContent = totals[0];
     cartContainer.innerHTML = html;
   } else {
+    cartCount.textContent = 0;
     confirimContainer.classList.add("hidden");
     cartContainer.innerHTML = `       <div>
               <figure class="flex justify-center">
@@ -168,39 +171,51 @@ function sumBasketItems(basketData) {
   return [totalCount, totalPrice];
 }
 
-function showModal() {
-  modalContainer.classList.replace("scale-0", "scale-100");
-  main.classList.remove("before:invisible");
-
-  createModalUi(basket);
+function openModal() {
+  modalContainer.classList.remove("scale-0");
+  main.classList.replace("before:-z-10", "before:z-10");
+  creatModalUi();
 }
 
-function createModalUi(modalData) {
-  const html = modalData
-    .map((mData) => {
-      return `  <div class="flex justify-between items-center p-1">
-          <div class="flex">
-            <figure class="size-24">
-              <img
-                class="size-full object-cover"
-                src=${mData.image.desktop}
-                alt=""
-              />
-            </figure>
-            <div class="flex flex-col">
-              <h4 class="font-bold text-lg">Classic Tiramisu</h4>
-              <div class="flex items-center space-x-2 mt-auto">
-                <span class="text-[#c73a0f] font-bold mr-1">1x</span>
+confirmOrderBtn.addEventListener("click", openModal);
 
-                <span class="text-[#ad8985] font-medium">$6.60</span>
+function closeModal() {
+  modalContainer.classList.add("scale-0");
+  main.classList.replace("before:z-10", "before:-z-10");
+}
+
+startNewOrderBtn.addEventListener("click", closeModal);
+
+function creatModalUi() {
+  console.log(basket);
+  const html = basket
+    .map((basketData) => {
+      return ` <div class="flex justify-between items-center mt-4 rounded-lg">
+              <div class="flex">
+                <figure class="size-20 object-contain mr-2">
+                  <img
+                    class="size-full"
+                    src=${basketData.image.desktop}
+                    alt=""
+                  />
+                </figure>
+                <div class="flex flex-col justify-around">
+                  <p class="font-bold">${basketData.name}</p>
+                  <div>
+                    <span class="mr-1 text-[#c73a0f] font-bold">${
+                      basketData.count
+                    }</span>
+                    <span class="text-[#c9aea6]">@${basketData.price.toFixed(
+                      2
+                    )}</span>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <span class=""> $6.60 </span>
-        </div>`;
+              <div><span class="font-semibold">${(
+                basketData.price * basketData.count
+              ).toFixed(2)}</span></div>
+            </div> `;
     })
     .join("");
-  modalContainer.innerHTML = html;
+  modalContent.innerHTML = html;
 }
-
-confirmOrderBtn.addEventListener("click", showModal);

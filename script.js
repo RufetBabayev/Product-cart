@@ -10,6 +10,7 @@ const modalContainer = document.querySelector("#modalContainer");
 const main = document.querySelector("main");
 const startNewOrderBtn = document.querySelector("#startNewOrderBtn");
 const modalContent = document.querySelector("#modalContent");
+const totalModalPrice = document.querySelector("#totalModalPrice");
 
 let basket = [];
 
@@ -116,16 +117,16 @@ function createBasketUi(basketItems) {
                     <span class="text-[#c73a0f] font-bold mr-1">${
                       bData.count
                     }x</span>
-                    <span class="text-[#c9aea6]">@ $${bData.price.toFixed(
-                      2
-                    )}</span>
+                    <span data-id=${
+                      bData.id
+                    } class="text-[#c9aea6]">@ $${bData.price.toFixed(2)}</span>
                     <span class="text-[#ad8985] font-medium">$${(
                       bData.price * bData.count
                     ).toFixed(2)}</span>
                   </div>
                 </div>
-                <button
-                  class="size-5 rounded-full border grid place-items-center border-gray-400"
+                <button  data-id=${bData.id}
+                  class=" removeBtn size-5 rounded-full border grid place-items-center border-gray-400"
                 >
                   <img
                     class="object-cover"
@@ -140,6 +141,7 @@ function createBasketUi(basketItems) {
     totalBasketPrice.textContent = `$${totals[1].toFixed(2)}`;
     cartCount.textContent = totals[0];
     cartContainer.innerHTML = html;
+    getRemoveBtn(".removeBtn");
   } else {
     cartCount.textContent = 0;
     confirimContainer.classList.add("hidden");
@@ -171,6 +173,20 @@ function sumBasketItems(basketData) {
   return [totalCount, totalPrice];
 }
 
+function getRemoveBtn(className) {
+  const removeBtn = document.querySelectorAll(className);
+  removeBtn.forEach((btn) =>
+    btn.addEventListener("click", () => {
+      const id = +btn.getAttribute("data-id");
+      removeBasket(id);
+    })
+  );
+}
+function removeBasket(itemsId) {
+  basket = basket.filter((b) => b.id !== itemsId);
+  createBasketUi(basket);
+}
+
 function openModal() {
   modalContainer.classList.remove("scale-0");
   main.classList.replace("before:-z-10", "before:z-10");
@@ -187,8 +203,9 @@ function closeModal() {
 startNewOrderBtn.addEventListener("click", closeModal);
 
 function creatModalUi() {
-  console.log(basket);
+  const totals = sumModalItems(basket);
   const html = basket
+
     .map((basketData) => {
       return ` <div class="flex justify-between items-center mt-4 rounded-lg">
               <div class="flex">
@@ -204,7 +221,7 @@ function creatModalUi() {
                   <div>
                     <span class="mr-1 text-[#c73a0f] font-bold">${
                       basketData.count
-                    }</span>
+                    }x</span>
                     <span class="text-[#c9aea6]">@${basketData.price.toFixed(
                       2
                     )}</span>
@@ -218,4 +235,18 @@ function creatModalUi() {
     })
     .join("");
   modalContent.innerHTML = html;
+  totalModalPrice.textContent = `$${totals[1].toFixed(2)}`;
+}
+
+function sumModalItems(modalData) {
+  const totalPrice = modalData.reduce((prev, obj) => {
+    prev += obj.count * obj.price;
+    return prev;
+  }, 0);
+  const totalCount = modalData.reduce((prev, obj) => {
+    prev += obj.count;
+    return prev;
+  }, 0);
+
+  return [totalCount, totalPrice];
 }
